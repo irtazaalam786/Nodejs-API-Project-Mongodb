@@ -16,9 +16,13 @@ router.get('/',function(req,res){
     res.send('Hello World');
 })
 
-app.use('/', router);
+// Setting up Routes
+var router=express.Router();
+employees  = require('./routes/employees.js');
+app.use('/employees', employees);
 
-//app.listen(port);
+users  = require('./routes/users.js');
+app.use('/users', users);
 
 // Create an HTTP service.
 http.createServer(app).listen(port);

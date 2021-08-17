@@ -4,7 +4,7 @@ require('dotenv').config()
 
 let url = process.env.URL
 
-const database = mongoose.createConnection(uk_server, {useNewUrlParser: true, useUnifiedTopology: true, auth : { authSource : 'admin' }});
+const database = mongoose.createConnection(url, {useNewUrlParser: true, useUnifiedTopology: true});
 
 
 const EmployeeSchema=new mongoose.Schema({
@@ -30,12 +30,46 @@ const EmployeeSchema=new mongoose.Schema({
     }
 },
 {
+    versionKey: false,
     collection: 'employees'
 })
 
+const UserSchema = mongoose.Schema({
+  username: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  company: {
+    type: String,
+    required: true
+  },
+  currency : {
+    type : String,
+    required : true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now()
+  }
+}, 
+{ 
+  collection: 'users' 
+});
+
+
 //Create Model with Schema Reference
 var Employee = database.model('Employee',EmployeeSchema);
+var User = database.model('User',UserSchema);
 
 module.exports = {
-    Employee
+    Employee,
+    User
 };
